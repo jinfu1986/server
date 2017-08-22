@@ -1,0 +1,39 @@
+{
+  "name": "rtmp-server",
+  "version": "1.0.0",
+  "description": "RTMP/HTTP Stream Server",
+  "author": "MingMing <mingming@outrightdevelopment.com>",
+  "license": "MIT",
+  "main": "stream_server.js",
+  "scripts": {
+    "start": "node server.js",
+    "socket": "node start_socket.js"
+  },
+  "dependencies": {
+    "async": "^2.5.0",
+    "axios": "^0.16.2",
+    "body-parser": "^1.17.2",
+    "ejs": "0.8.x",
+    "express": "^4.15.3",
+    "express-fileupload": "^0.1.4",
+    "mongodb": "^2.2.29",
+    "morgan": "^1.8.2",
+    "node-uuid": "^1.4.8",
+    "pg": "^6.4.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.2.0",
+    "sequent": ">= 0.1.2",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {
+    "eslint": "^2.13.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.10.2",
+    "eslint-plugin-jsx-a11y": "^1.5.5",
+    "eslint-plugin-react": "^5.2.2",
+    "nodemon": "^1.11.0"
+  },
+  "engines": {
+    "node": ">= 0.12.0"
+  }
+}

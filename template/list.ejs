@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>List of Streams</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+  <div class="row" style="margin: 30px 0;">
+    <div class="col-lg-6">
+      <h2>List of Streams <small><span class="label label-danger ">Currently not available</span></small></h2>
+      <p class="text-muted">These streams are now being broadcasted. Please see it live on <p>rtmp://<%= serverAddress %>/live/<code>stream_name</code></p></p>
+      <% if (streams.length > 0) { -%>
+        <ol>
+        <% for (var i=0, l=streams.length; i<l; i++) { -%>
+          <li>
+            <%= streams[i] %>
+          </li>
+        <% } -%>
+          <li>...</li>
+        </ol>
+      <% } -%>
+    </div>
+    <div class="col-lg-6">
+      <h2>List of Files</h2>
+      <p class="text-muted">You can download the recorded video in the list below.</p>
+      <% if (files.length > 0) { -%>
+        <ol>
+        <% for (var i=0, l=files.length; i<l; i++) { -%>
+          <li>
+            <a href="file/<%= files[i].filename %>"><%= files[i].name %></a>
+          </li>
+        <% } -%>
+        </ol>
+      <% } -%>
+    </div>
+    <div class="clearfix" style="margin: 30px 0;"></div>
+    <div class="col-lg-8 col-lg-offset-2">
+      <p class="text-danger">Mobile Application Guide</p>
+      <ol>
+        <li>
+          <p class="" id="step1">Main Page</p>
+
+          <img src="img/step1.png" style="width: 400px; float: left; margin: 0 1em 1em 0;" />
+          <p>
+          </p>
+          <div class="clearfix"></div>
+        </li>
+        <li>
+          <p class="">BroadCast</p>
+          <img src="img/step2.png" style="width: 400px; float: left; margin: 0 1em 1em 0;" />
+          <p>
+          <a href="#step1">Click '+'</a> on the top left screen, it'll show the dialog box which requires room title.<br/>
+          After input room title, click "Start" button. It'll start broadcasting at this url. <code>rtmp://<%= serverAddress %>/live/{Room Key}</code><br/>
+          <code>{Room Key}</code> will be shown on the next screen at top right corner.<br/>
+          While live stream is broadcasting, it is being recorded on the server. Once it is done it'll be listed on the "Stored Files"(Step 4).
+          </p>
+          <div class="clearfix"></div>
+        </li>
+        <li>
+          <p class="">List of Live Channels</p>
+          <img src="img/step3.png" style="width: 400px; float: left; margin: 0 1em 1em 0;" />
+          <p>
+          <a href="#step1">Click 'refresh' icon</a> on the top right screen, it'll refresh the live channel list.<br/>
+          Click on each room, it would let you join the room, see the live streaming with chat/gift functionality.<br/>
+          </p>
+          <div class="clearfix"></div>
+        </li>
+        <li>
+          <p class="">List of Stored Files</p>
+          <img src="img/step4.png" style="width: 400px; float: left; margin: 0 1em 1em 0;" />
+          <p>
+          <a href="#step1">Click 'directory' icon</a> on the top right screen, it'll refresh the stored files list.<br/>
+          Click on each file, it will play the recorded video that is stored on the server.<br/>
+          List shows recorded time and duration with Room Key.<br/>
+          </p>
+          <div class="clearfix"></div>
+        </li>
+      </ol>
+      <p class="text-danger">User Guide</p>
+      <ol>
+        <li>
+          Clone the repo <code>https://github.com/rldaulton/rtmp-server</code>
+        </li>
+        <li>
+          Install the iOS Application - <code>broadcaster-ios</code><br/>
+          <span class="text-muted">Server urls are already set, so you don't need to change anything.</span>
+        </li>
+        <li>
+          Open the iOS App(name would be `Live`) and click '+' on top left of screen.<br/>
+          Enter the title. And click "Start" button.
+        </li>
+        <li>
+          You will see status:"start" on top center of screen. It means broadcasting is already started. <br/>
+          If you don't see "start" but "error", it means server is not ready and cannot get the stream. <br/>
+          You will see Room name on top right of screen.
+        </li>
+        <li>
+          You can check the live stream in following 2 ways <br/>
+          -(On device) Download and Install <code>Live Player</code> from App Store.<br/>
+          -(On desktop) Use <code>VLC Media Player</code>,<code>JW Player</code>, <code>Flow Player</code> or <code>Online rtmp player</code> to check the stream.<br/>
+          You can use the <code>Room name</code>(which is 4 letter string) as the <code>Stream Name</code>.<br/>
+          For e.g : <code>rtmp://<%= serverAddress %>/live/vjdi</code> (vjdi: Room name on top right screen of Live(iOS) APP)
+        </li>
+        <li>
+          Once the rtmp stream is started broadcasting, it is automatically recorded on the server. (Will move it to Cloud Storage once record is done.) <br/>
+          You will see the updated file list on <code>http://<%= serverAddress %></code>. Just refresh the web page to see the updated file list.
+        </li>
+        <li>
+          You can stop broadcasting by clicking `&times` on top left screen.<br/>
+          Once the broadcast is finished, video file (recorded on the server) will be renamed as <code>{START TIMESTAMP}-{END TIMESTAMP}-{Room Name}.flv</code>. <br/>
+          Files are available to download on the file list.
+        </li>
+      </ol>
+      <p class="text-info">FAQ</p>
+      <ol>
+        <li>
+          <p class="text-danger">To broadcast from video file</p>
+          <p class="text-muted">You will need to install ffmpeg on your machine first to broadcast your local video file.<br/>Note: Broadcasting your local file is just for test. It should be broadcasted from webcam or mobile device. This one is just dealing with the currently broadcasting stream.</p>
+          <pre>brew install ffmpeg</pre>
+          <p class="bg-primary" style="padding: 1em; border-radius: 0.5em; letter-spacing: 1px;">ffmpeg -re -i <code>input.mp4</code> -c copy -f flv rtmp://<%= serverAddress %>/live/<code>stream_name</code></p>
+        </li>
+        <li>
+          <p class="text-danger">How to check ?</p>
+          <p class="bg-primary" style="padding: 1em; border-radius: 0.5em; letter-spacing: 1px;">You can try <code>rtmp://<%= serverAddress %>/live/stream_name</code> on <code>VLC Media Player</code>, <code>JW Player</code>, <code>Flow Player</code>, ... (which are Flash Players)</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+</body>
+</html>
